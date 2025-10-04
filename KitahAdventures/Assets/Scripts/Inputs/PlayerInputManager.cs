@@ -8,8 +8,8 @@ public class PlayerInputManager : MonoBehaviour
     PlayerInputs playerInputs;
 
     public Vector2 movementInput;
-    [SerializeField] private float horizontalInput = 0;
-    [SerializeField] private float verticlaInput = 0;
+    public float horizontalInput = 0;
+    public float verticalInput = 0;
     public float moveAmount;
 
     private void Awake()
@@ -45,9 +45,9 @@ public class PlayerInputManager : MonoBehaviour
     private void HanddleMovementInput()
     {
         horizontalInput = movementInput.x;
-        verticlaInput = movementInput.y;
+        verticalInput = movementInput.y;
         
-        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticlaInput));
+        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
         //Idle walking or running by clamping
         if (moveAmount <= 0.5f && moveAmount > 0)
         {

@@ -11,9 +11,6 @@ public class PlayerManager : MonoBehaviour
     
     private void Update()
     {
-        playerLocomotionManager.horizontalMovement = PlayerInputManager.instance.movementInput.x;
-        playerLocomotionManager.verticalMovement = PlayerInputManager.instance.movementInput.y;
-
         playerLocomotionManager.HandleAllMovement();
     }
 }
