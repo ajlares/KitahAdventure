@@ -8,9 +8,21 @@ public class PlayerManager : MonoBehaviour
     {
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
     }
-    
+
+    private void Start()
+    {
+        PlayerCamera.instance.player = this;
+    }
+
     private void Update()
     {
         playerLocomotionManager.HandleAllMovement();
+        //PlayerCamera.instance.HandleAllCameraActions();
     }
+    
+    private void LateUpdate()
+    {
+        PlayerCamera.instance.HandleAllCameraActions();
+    }
+
 }
