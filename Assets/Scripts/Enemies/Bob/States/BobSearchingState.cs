@@ -1,15 +1,19 @@
 using UnityEngine;
 
-public class BobSearchingState : MonoBehaviour
+[CreateAssetMenu(fileName = "BobSearchingState", menuName = "Enemies/Bob/BobSearchingState")]
+public class BobSearchingState : BobBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void EnterState(BobStateMachine stateMachine)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void UpdateState(BobStateMachine stateMachine)
+    {
+        
+    }
+
+    public override void ExitState(BobStateMachine stateMachine)
     {
         
     }

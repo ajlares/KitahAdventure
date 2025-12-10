@@ -6,6 +6,7 @@ public class BobStateMachine : MonoBehaviour
     [Header("----- setttups-----")]
     public BobBaseState initialState;
     public BobBaseState CurrentState;
+    [SerializeField] private Animator anim;
     public BlackBoard BobBlackBoard;
 
     private void Start()
@@ -31,5 +32,9 @@ public class BobStateMachine : MonoBehaviour
         }
         CurrentState = newState;
         CurrentState.EnterState(this);
+    }
+    public void ChangeAnimation(string newAnimation)
+    {
+        anim.CrossFade(newAnimation, 0f);
     }
 }
