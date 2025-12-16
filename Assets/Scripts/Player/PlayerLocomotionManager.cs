@@ -24,7 +24,7 @@ public class PlayerLocomotionManager : MonoBehaviour
     
     // Dodge/Sprint
     bool isSprinting => PlayerInputManager.instance.sprintInput;
-
+    private bool hasStamina => PlayerStatsManager.instance.HasEnoughStamina();
     
     private CharacterController characterController;
     private void Awake()
@@ -56,10 +56,15 @@ public class PlayerLocomotionManager : MonoBehaviour
 
         if (PlayerInputManager.instance.moveAmount > 0.5f)
         {
-            if (isSprinting)
+            if (isSprinting && hasStamina)
+            {
+                PlayerStatsManager.instance.ConsumeSprintStamina();
                 characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
+            }
             else
+            {
                 characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+            }
         }
         else if (PlayerInputManager.instance.moveAmount <= 0.5f)
         {

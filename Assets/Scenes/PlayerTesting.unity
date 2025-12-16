@@ -7180,6 +7180,7 @@ GameObject:
   - component: {fileID: 878144159}
   - component: {fileID: 878144165}
   - component: {fileID: 878144164}
+  - component: {fileID: 878144166}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7337,6 +7338,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce6d40d440cd3274f82c0ef4cb48bd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+--- !u!114 &878144166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878144158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fca5ac5fae826841ad36da9b0393be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsManager
+  maxHealth: 100
+  maxStamina: 100
+  currentStamina: 0
+  staminaRegenRate: 1
+  sprintDrainRate: 3
+  regenDelay: 2
+  regenTimer: 0
 --- !u!1 &887184215
 GameObject:
   m_ObjectHideFlags: 0
