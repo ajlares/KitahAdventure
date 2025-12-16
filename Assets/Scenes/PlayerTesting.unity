@@ -7324,6 +7324,7 @@ MonoBehaviour:
   rotationSpeed: 5
   walkingSpeed: 2
   runningSpeed: 5
+  sprintSpeed: 10
 --- !u!114 &878144165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16760,6 +16761,11 @@ MonoBehaviour:
   cameraInput: {x: 0, y: 0}
   cameraHorizontalInput: 0
   cameraVerticalInput: 0
+  sprintInput: 0
+  dodgeInput: 0
+  bButtonPressed: 0
+  bButtonHoldTimer: 0
+  holdThreshold: 0.25
 --- !u!4 &1875086013
 Transform:
   m_ObjectHideFlags: 0

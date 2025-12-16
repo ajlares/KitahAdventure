@@ -20,9 +20,10 @@ public class PlayerLocomotionManager : MonoBehaviour
     
     [SerializeField] private float walkingSpeed = 2;
     [SerializeField] private float runningSpeed = 5;
+    [SerializeField] private float sprintSpeed = 10;
     
     // Dodge/Sprint
-    // bool isSprinting => PlayerInputManager.instance.sprintInput;
+    bool isSprinting => PlayerInputManager.instance.sprintInput;
 
     
     private CharacterController characterController;
@@ -55,11 +56,13 @@ public class PlayerLocomotionManager : MonoBehaviour
 
         if (PlayerInputManager.instance.moveAmount > 0.5f)
         {
-            characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+            if (isSprinting)
+                characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
+            else
+                characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
         }
         else if (PlayerInputManager.instance.moveAmount <= 0.5f)
         {
-            // Move at walking speed
             characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
         }
     }
