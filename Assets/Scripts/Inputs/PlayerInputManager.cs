@@ -17,6 +17,16 @@ public class PlayerInputManager : MonoBehaviour
     public Vector2 cameraInput;
     public float cameraHorizontalInput = 0;
     public float cameraVerticalInput = 0;
+    
+    [Header("Sprint / Dodge Input")]
+    public bool sprintInput;
+    public bool dodgeInput;
+
+    [SerializeField] private bool bButtonPressed;
+    [SerializeField] private float bButtonHoldTimer;
+
+    [SerializeField] private float holdThreshold = 0.25f;
+
     private void Awake()
     {
         if (instance == null)
@@ -38,6 +48,11 @@ public class PlayerInputManager : MonoBehaviour
             //Whenever this action is performed, take the values from the performed action and give them to the vector2 movementInput
             playerInputs.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerInputs.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+            
+            // Functions for sprint and dodge
+            playerInputs.PlayerMovement.RollSprint.started += _ => OnBPressed();
+            playerInputs.PlayerMovement.RollSprint.canceled += _ => OnBReleased();
+
         }
         
         playerInputs.Enable();
@@ -47,6 +62,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         HanddlePlayerMovementInput();
         HandleCameraMovementInput();
+        HandleSprintDodgeInput();
     }
 
     private void HanddlePlayerMovementInput()
@@ -70,5 +86,39 @@ public class PlayerInputManager : MonoBehaviour
     {
         cameraHorizontalInput = cameraInput.x;
         cameraVerticalInput = cameraInput.y;
+    }
+    
+    private void HandleSprintDodgeInput()
+    {
+        if (bButtonPressed)
+        {
+            // We start the timer to see if we are running or just dodging
+            bButtonHoldTimer += Time.deltaTime;
+
+            if (bButtonHoldTimer >= holdThreshold)
+            {
+                sprintInput = true;
+            }
+        }
+    }
+
+    private void OnBPressed()
+    {
+        bButtonPressed = true;
+        bButtonHoldTimer = 0;
+    }
+    
+    private void OnBReleased()
+    {
+        if (bButtonHoldTimer < holdThreshold)
+        {
+            // Since we only tapped the button its a dodge
+            // after we perform the dodge in locomotion, we should return this value to false
+            dodgeInput = true;
+        }
+        bButtonPressed = false;
+        sprintInput = false;
+        bButtonHoldTimer = 0;
+        
     }
 }

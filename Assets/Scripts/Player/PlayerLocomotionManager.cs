@@ -7,15 +7,23 @@ public class PlayerLocomotionManager : MonoBehaviour
 {
     // Values from input manager
     PlayerManager playerManager;
+    
+    [Header("Input Values")]
     public float horizontalMovement;
     public float verticalMovement;
 
     private Vector3 moveDirection;
     Vector3 targetRotationDirection = Vector3.zero;
+    
+    [Header("Movement Settings")]
     public float rotationSpeed = 5;
     
     [SerializeField] private float walkingSpeed = 2;
     [SerializeField] private float runningSpeed = 5;
+    
+    // Dodge/Sprint
+    // bool isSprinting => PlayerInputManager.instance.sprintInput;
+
     
     private CharacterController characterController;
     private void Awake()
