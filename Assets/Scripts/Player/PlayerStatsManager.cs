@@ -1,4 +1,6 @@
+using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatsManager : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PlayerStatsManager : MonoBehaviour
     [Header("Stamina")]
     public float maxStamina = 100;
     public float currentStamina;
+    public Image staminaBar;
     
     [SerializeField] float staminaRegenRate;
     [SerializeField] float sprintDrainRate;
@@ -32,6 +35,7 @@ public class PlayerStatsManager : MonoBehaviour
 
     private void Update()
     {
+        staminaBar.fillAmount = currentStamina / maxStamina;
         RegenerateStamina();
     }
 
