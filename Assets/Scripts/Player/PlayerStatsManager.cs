@@ -15,6 +15,7 @@ public class PlayerStatsManager : MonoBehaviour
     
     [SerializeField] float staminaRegenRate;
     [SerializeField] float sprintDrainRate;
+    [SerializeField] float dodgeDrain;
     [SerializeField] float regenDelay;
 
     [SerializeField] float regenTimer;
@@ -47,6 +48,13 @@ public class PlayerStatsManager : MonoBehaviour
     public void ConsumeSprintStamina()
     {
         currentStamina -= sprintDrainRate * Time.deltaTime;
+        currentStamina = Mathf.Max(0, currentStamina);
+        regenTimer = 0f;
+    }
+    
+    public void ConsumeDodgeStamina()
+    {
+        currentStamina -= dodgeDrain;
         currentStamina = Mathf.Max(0, currentStamina);
         regenTimer = 0f;
     }

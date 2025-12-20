@@ -7509,6 +7509,7 @@ GameObject:
   - component: {fileID: 878144165}
   - component: {fileID: 878144164}
   - component: {fileID: 878144166}
+  - component: {fileID: 878144167}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7684,8 +7685,23 @@ MonoBehaviour:
   staminaBar: {fileID: 610945852}
   staminaRegenRate: 1
   sprintDrainRate: 3
+  dodgeDrain: 25
   regenDelay: 2
   regenTimer: 0
+--- !u!114 &878144167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878144158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82aedf549049c4046a7221f9f47f4d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRollManager
+  rollDistance: 3
+  rollDuration: 0.1
 --- !u!1 &887184215
 GameObject:
   m_ObjectHideFlags: 0

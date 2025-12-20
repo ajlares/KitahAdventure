@@ -7,7 +7,8 @@ public class PlayerLocomotionManager : MonoBehaviour
 {
     // Values from input manager
     PlayerManager playerManager;
-    
+    PlayerRollManager rollManager;
+
     [Header("Input Values")]
     public float horizontalMovement;
     public float verticalMovement;
@@ -31,10 +32,14 @@ public class PlayerLocomotionManager : MonoBehaviour
     {
         playerManager = GetComponent<PlayerManager>();
         characterController = GetComponent<CharacterController>();
+        rollManager = GetComponent<PlayerRollManager>();
     }
 
     public void HandleAllMovement()
     {
+        if (rollManager != null && rollManager.IsRolling)
+            return;
+
         HandleGroundedMovement();
         HandleRotation();
     }
