@@ -58,7 +58,7 @@ public class PlayerRollManager : MonoBehaviour
         if (inputDir.magnitude > 0.1f)
             rollDirection = inputDir.normalized;
         else
-            rollDirection = transform.forward;
+            rollDirection = (transform.forward * -1f);
     }
 
     private void HandleRollMovement()
