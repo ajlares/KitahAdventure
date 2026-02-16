@@ -6,24 +6,28 @@ public class PlayerRollManager : MonoBehaviour
     [SerializeField] private float rollDistance = 3;
     [SerializeField] private float rollDuration = 0.1f;
 
+    public float staminaCost = 25f;
     private bool isRolling;
     private Vector3 rollDirection;
     private float rollTimer;
 
     private CharacterController characterController;
+    
+    PlayerStateManager playerStateManager;
 
     // FOr read only
     public bool IsRolling => isRolling;
 
     private void Awake()
     {
+        playerStateManager = GetComponent<PlayerStateManager>();
         characterController = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
         // Detect roll input
-        if (PlayerInputManager.instance.dodgeInput && !isRolling && PlayerStatsManager.instance.HasEnoughStamina())
+        if (PlayerInputManager.instance.dodgeInput && !isRolling && PlayerStatsManager.instance.HasEnoughStamina(staminaCost))
         {
             StartRoll();
         }
@@ -36,14 +40,13 @@ public class PlayerRollManager : MonoBehaviour
 
     private void StartRoll()
     {
+        playerStateManager.SetState(PlayerState.Rolling);
         isRolling = true;
         rollTimer = 0f;
 
-        PlayerStatsManager.instance.ConsumeDodgeStamina();
+        PlayerStatsManager.instance.ConsumeStaminaSingle(staminaCost);
         SetRollDirection();
-        
-        PlayerInputManager.instance.dodgeInput= false;
-        
+        PlayerInputManager.instance.dodgeInput = false;
         // To do: give player i frames
     }
 
@@ -77,6 +80,7 @@ public class PlayerRollManager : MonoBehaviour
     private void EndRoll()
     {
         isRolling = false;
+        playerStateManager.SetState(PlayerState.Normal);
         // end i frames
     }
 }

@@ -9,16 +9,15 @@ public class PlayerStatsManager : MonoBehaviour
     [Header("Health")]
     public float maxHealth = 100;
     [Header("Stamina")]
+    // Move to PlayerUI Manager
     public float maxStamina = 100;
     public float currentStamina;
     public Image staminaBar;
     
     [SerializeField] float staminaRegenRate;
-    [SerializeField] float sprintDrainRate;
-    [SerializeField] float dodgeDrain;
     [SerializeField] float regenDelay;
-
     [SerializeField] float regenTimer;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -40,21 +39,21 @@ public class PlayerStatsManager : MonoBehaviour
         RegenerateStamina();
     }
 
-    public bool HasEnoughStamina()
+    public bool HasEnoughStamina(float cost)
     {
-        return currentStamina > 0;
+        return currentStamina >= cost;
     }
 
-    public void ConsumeSprintStamina()
+    public void ConsumeStaminaSingle(float cost)
     {
-        currentStamina -= sprintDrainRate * Time.deltaTime;
+        currentStamina -= cost;
         currentStamina = Mathf.Max(0, currentStamina);
         regenTimer = 0f;
     }
-    
-    public void ConsumeDodgeStamina()
+
+    public void ConsumeStaminaRate(float cost)
     {
-        currentStamina -= dodgeDrain;
+        currentStamina -= cost * Time.deltaTime;
         currentStamina = Mathf.Max(0, currentStamina);
         regenTimer = 0f;
     }

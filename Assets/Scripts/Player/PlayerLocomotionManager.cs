@@ -8,7 +8,7 @@ public class PlayerLocomotionManager : MonoBehaviour
     // Values from input manager
     PlayerManager playerManager;
     PlayerRollManager rollManager;
-
+    PlayerStateManager playerStateManager;
     [Header("Input Values")]
     public float horizontalMovement;
     public float verticalMovement;
@@ -22,14 +22,16 @@ public class PlayerLocomotionManager : MonoBehaviour
     [SerializeField] private float walkingSpeed = 2;
     [SerializeField] private float runningSpeed = 5;
     [SerializeField] private float sprintSpeed = 10;
+    [SerializeField] private float sprintStaminaCost = 5;
     
     // Dodge/Sprint
     bool isSprinting => PlayerInputManager.instance.sprintInput;
-    private bool hasStamina => PlayerStatsManager.instance.HasEnoughStamina();
+    private bool hasStamina => PlayerStatsManager.instance.HasEnoughStamina(sprintStaminaCost);
     
     private CharacterController characterController;
     private void Awake()
     {
+        playerStateManager = GetComponent<PlayerStateManager>();
         playerManager = GetComponent<PlayerManager>();
         characterController = GetComponent<CharacterController>();
         rollManager = GetComponent<PlayerRollManager>();
@@ -37,7 +39,7 @@ public class PlayerLocomotionManager : MonoBehaviour
 
     public void HandleAllMovement()
     {
-        if (rollManager != null && rollManager.IsRolling)
+        if (!playerStateManager.CanMove())
             return;
 
         HandleGroundedMovement();
@@ -63,7 +65,7 @@ public class PlayerLocomotionManager : MonoBehaviour
         {
             if (isSprinting && hasStamina)
             {
-                PlayerStatsManager.instance.ConsumeSprintStamina();
+                PlayerStatsManager.instance.ConsumeStaminaRate(sprintStaminaCost);
                 characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
             }
             else
@@ -79,6 +81,9 @@ public class PlayerLocomotionManager : MonoBehaviour
 
     private void HandleRotation()
     {
+        if (!playerStateManager.CanRotate())
+            return;
+        
         targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
         targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
         targetRotationDirection.Normalize();
