@@ -7,25 +7,39 @@ public class PlayerLocomotionManager : MonoBehaviour
 {
     // Values from input manager
     PlayerManager playerManager;
+    PlayerRollManager rollManager;
+
+    [Header("Input Values")]
     public float horizontalMovement;
     public float verticalMovement;
 
     private Vector3 moveDirection;
     Vector3 targetRotationDirection = Vector3.zero;
+    
+    [Header("Movement Settings")]
     public float rotationSpeed = 5;
     
     [SerializeField] private float walkingSpeed = 2;
     [SerializeField] private float runningSpeed = 5;
+    [SerializeField] private float sprintSpeed = 10;
+    
+    // Dodge/Sprint
+    bool isSprinting => PlayerInputManager.instance.sprintInput;
+    private bool hasStamina => PlayerStatsManager.instance.HasEnoughStamina();
     
     private CharacterController characterController;
     private void Awake()
     {
         playerManager = GetComponent<PlayerManager>();
         characterController = GetComponent<CharacterController>();
+        rollManager = GetComponent<PlayerRollManager>();
     }
 
     public void HandleAllMovement()
     {
+        if (rollManager != null && rollManager.IsRolling)
+            return;
+
         HandleGroundedMovement();
         HandleRotation();
     }
@@ -47,11 +61,18 @@ public class PlayerLocomotionManager : MonoBehaviour
 
         if (PlayerInputManager.instance.moveAmount > 0.5f)
         {
-            characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+            if (isSprinting && hasStamina)
+            {
+                PlayerStatsManager.instance.ConsumeSprintStamina();
+                characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
+            }
+            else
+            {
+                characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+            }
         }
         else if (PlayerInputManager.instance.moveAmount <= 0.5f)
         {
-            // Move at walking speed
             characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
         }
     }
